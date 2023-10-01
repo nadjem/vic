@@ -73,8 +73,7 @@ meta:
     const storeContent = `
 import { acceptHMRUpdate, defineStore } from 'pinia';
 
-export const use${storeName}Store = defineStore({
-  id: '${storeName.toLowerCase()}',
+export const use${toCamelCase(storeName)}Store = defineStore(('${storeName.toLowerCase()}'),{
 
   state: () => ({
     // votre état initial ici
@@ -90,7 +89,7 @@ export const use${storeName}Store = defineStore({
 });
 
 if (import.meta.hot)
-  import.meta.hot.accept(acceptHMRUpdate(use${storeName}Store, import.meta.hot))
+  import.meta.hot.accept(acceptHMRUpdate(use${toCamelCase(storeName)}Store, import.meta.hot))
         `
     if (!fs.existsSync(`${path}`)) {
       console.log(pc.red(`[Error] path ${path} not exist`))
