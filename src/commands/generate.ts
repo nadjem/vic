@@ -49,7 +49,7 @@ export default class Generate extends Command {
 
       case 'component': {
         const answers = await this.prompt.component()
-        console.log(answers)
+        this.generator.component(answers.componentName, answers.path)
 
         break
       }

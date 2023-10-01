@@ -32,10 +32,39 @@ meta:
       fs.mkdirSync(`${path}/${pageName.toLocaleLowerCase()}`, 0o744)
     }
 
-    console.log(pc.green(`generate page ${pageName} in ${path}`))
     fs.writeFile(pagePath, pageContent, err => {
       if (err) throw err
-      console.log(pc.green(`generate page ${pageName} success`))
+      console.log(pc.green(`[Success] page ${pageName} created`))
+    })
+  }
+
+  async component(componentName: string, path: string): Promise<void> {
+    const componentPath =  `${path}/${componentName.toLocaleLowerCase()}.vue`
+    const componentContent = `
+<script setup lang="ts">
+</script>
+
+<template>
+    <div>
+        <h1>${componentName.toLocaleUpperCase()} Component</h1>
+    </div>
+</template>
+
+<style scoped lang="scss">
+
+</style>
+`
+    if (!fs.existsSync(`${path}`)) {
+      console.log(pc.red(`[Error] path ${path} not exist`))
+    }
+
+    if (!fs.existsSync(`${path}/${componentName.toLocaleLowerCase()}`)) {
+      fs.mkdirSync(`${path}/${componentName.toLocaleLowerCase()}`, 0o744)
+    }
+
+    fs.writeFile(componentPath, componentContent, err => {
+      if (err) throw err
+      console.log(pc.green(`[Success] component ${componentName} created`))
     })
   }
 }
