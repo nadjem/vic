@@ -43,20 +43,20 @@ export default class Generate extends Command {
       case 'page': {
         const answers = await this.prompt.page()
         this.generator.page(answers.pageName, answers.layoutName, answers.path)
-        
+
         break
       }
 
       case 'component': {
         const answers = await this.prompt.component()
-        console.log(answers)
+        this.generator.component(answers.componentName, answers.path)
 
         break
       }
 
       case 'store': {
         const answers = await this.prompt.store()
-        console.log(answers)
+        this.generator.store(answers.storeName, answers.path)
 
         break
       }
