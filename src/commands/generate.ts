@@ -56,7 +56,7 @@ export default class Generate extends Command {
 
       case 'store': {
         const answers = await this.prompt.store()
-        console.log(answers)
+        this.generator.store(answers.storeName, answers.path)
 
         break
       }

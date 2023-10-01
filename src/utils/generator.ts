@@ -1,7 +1,11 @@
-
 import * as fs from 'node:fs'
 // import * as path from 'node:path'
 import pc from 'picocolors'
+const toCamelCase = function (str:string) {
+  return str.replace(/\b(\w)/g, function (match, capture) {
+    return capture.toUpperCase()
+  }).replace(/\s+/g, '')
+}
 
 export default class Generator {
   async page(pageName: string, layoutName: string | undefined, path: string): Promise<void> {
@@ -39,7 +43,7 @@ meta:
   }
 
   async component(componentName: string, path: string): Promise<void> {
-    const componentPath =  `${path}/${componentName.toLocaleLowerCase()}.vue`
+    const componentPath =  `${path}/${toCamelCase(componentName)}.vue`
     const componentContent = `
 <script setup lang="ts">
 </script>
@@ -58,13 +62,43 @@ meta:
       console.log(pc.red(`[Error] path ${path} not exist`))
     }
 
-    if (!fs.existsSync(`${path}/${componentName.toLocaleLowerCase()}`)) {
-      fs.mkdirSync(`${path}/${componentName.toLocaleLowerCase()}`, 0o744)
-    }
-
     fs.writeFile(componentPath, componentContent, err => {
       if (err) throw err
       console.log(pc.green(`[Success] component ${componentName} created`))
+    })
+  }
+
+  async store(storeName: string, path: string): Promise<void> {
+    const storePath =  `${path}/${storeName.toLocaleLowerCase()}.ts`
+    const storeContent = `
+import { acceptHMRUpdate, defineStore } from 'pinia';
+
+export const use${storeName}Store = defineStore({
+  id: '${storeName.toLowerCase()}',
+
+  state: () => ({
+    // votre état initial ici
+  }),
+
+  getters: {
+    // vos getters ici
+  },
+
+  actions: {
+    // vos actions ici
+  },
+});
+
+if (import.meta.hot)
+  import.meta.hot.accept(acceptHMRUpdate(use${storeName}Store, import.meta.hot))
+        `
+    if (!fs.existsSync(`${path}`)) {
+      console.log(pc.red(`[Error] path ${path} not exist`))
+    }
+
+    fs.writeFile(storePath, storeContent, err => {
+      if (err) throw err
+      console.log(pc.green(`[Success] store ${storeName} created`))
     })
   }
 }
