@@ -23,4 +23,19 @@ export default class Project {
 
     return false
   }
+
+  async getLayouts(): Promise<{ name: string; value: string; }[]> {
+    const dirContents = fs.readdirSync('./src/layouts')
+    const layoutList = []
+    for (const dirContent of dirContents) {
+      if (dirContent.includes('.vue')) {
+        layoutList.push({
+          value: dirContent.replace('.vue', ''),
+          name: dirContent.replace('.vue', ''),
+        })
+      }
+    }
+
+    return layoutList
+  }
 }

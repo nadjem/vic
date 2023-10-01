@@ -1,12 +1,18 @@
-import {input, confirm} from '@inquirer/prompts'
-
+import {input, confirm, select} from '@inquirer/prompts'
+import Project from './project'
+import * as fs from 'node:fs'
 export default class Prompt {
   async page(): Promise<{ pageName: string; layoutName: string | undefined; path: string; }> {
     const pageName = await input({message: 'Choose page name :'})
     const withLayout = await confirm({message: 'use an existing layout?'})
+
     let layoutName
+    let layoutList: { name: string; value: string; }[] = []
+
     if (withLayout) {
-      layoutName = await input({message: 'Choose layout name :'})
+      const project = new Project()
+      layoutList = await project.getLayouts()
+      layoutName = await select({message: 'Select your layout :', choices: layoutList})
     }
 
     const path = await input({message: 'Choose path to create this page (default src/page/{pageName}/) :', default: 'src/pages'})

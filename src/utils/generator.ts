@@ -2,7 +2,6 @@
 import * as fs from 'node:fs'
 // import * as path from 'node:path'
 import pc from 'picocolors'
-import chmodr  from 'chmodr'
 
 export default class Generator {
   async page(pageName: string, layoutName: string | undefined, path: string): Promise<void> {
@@ -11,15 +10,18 @@ export default class Generator {
 <script setup lang="ts">
 
 </script>
+
 <template>
     <div>
         <h1>${pageName.toLocaleUpperCase()} Page</h1>
     </div>
 </template>
+
 ${layoutName ? `<route lang="yaml">
 meta:
   layout: ${layoutName.toLocaleLowerCase()}
-</route>` : ''}`
+</route>
+` : ''}`
 
     if (!fs.existsSync(`${path}`)) {
       console.log(pc.red(`[Error] path ${path} not exist`))

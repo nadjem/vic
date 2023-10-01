@@ -43,7 +43,7 @@ export default class Generate extends Command {
       case 'page': {
         const answers = await this.prompt.page()
         this.generator.page(answers.pageName, answers.layoutName, answers.path)
-        
+
         break
       }
 
