@@ -21,7 +21,7 @@ generate page
 $ vic generate page
 ? Choose page name ?
 ? Use an existing layout ?
-? Choose layout name :
+? which layout use :
 ? Choose path to create this page (default src/page/{pageName}/) ?
 ```
 
@@ -29,7 +29,7 @@ generate component
 
 ```bash
 $ vic generate component
-? What is the name of the component ?
+? Choose component name ?
 ? Choose path to create this component (default src/component/{componentName}/) ? 
 ```
 
@@ -37,7 +37,7 @@ generate store
 
 ```bash
 $ vic generate store (pinia)
-? What is the name of the store ?
+? Choose store name ?
 ? Choose path to create this store (default src/store/{storeName}/) ? 
 ```
 
