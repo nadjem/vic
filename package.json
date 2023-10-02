@@ -1,7 +1,7 @@
 {
-  "name": "vic",
+  "name": "v-cli",
   "version": "0.0.0",
-  "description": "oclif example Hello World CLI",
+  "description": "A vitesse/nuxt/vue 3 cli for generating some stuff.",
   "author": "nadjem @nadjem",
   "bin": {
     "vic": "./bin/run"
@@ -9,7 +9,7 @@
   "homepage": "https://github.com/nadjem/vic",
   "license": "MIT",
   "main": "dist/index.js",
-  "repository": "nadjem/vic",
+  "repository": "nadjem/v-cli",
   "files": [
     "/bin",
     "/dist",
@@ -44,8 +44,8 @@
     "typescript": "^4.9.5"
   },
   "oclif": {
-    "bin": "vic",
-    "dirname": "vic",
+    "bin": "v-cli",
+    "dirname": "v-cli",
     "commands": "./dist/commands",
     "plugins": [
       "@oclif/plugin-help"
