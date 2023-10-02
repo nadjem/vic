@@ -1,6 +1,5 @@
 import {input, confirm, select} from '@inquirer/prompts'
 import Project from './project'
-import * as fs from 'node:fs'
 export default class Prompt {
   async page(): Promise<{ pageName: string; layoutName: string | undefined; path: string; }> {
     const pageName = await input({message: 'Choose page name :'})

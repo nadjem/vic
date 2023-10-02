@@ -1,54 +1,84 @@
-import {expect, test} from '@oclif/test'
+
+import {test} from '@oclif/test'
 import sinon from 'sinon'
 import Project from '../../src/utils/project'
 import Prompt from '../../src/utils/prompt'
 import Generate from '../../src/commands/generate'
 import Generator from '../../src/utils/generator'
 
-describe('generate', () => {
+describe('Generate Command', () => {
   let projectMock: sinon.SinonStubbedInstance<Project>
   let promptMock: sinon.SinonStubbedInstance<Prompt>
-  let checkDirStub: sinon.SinonStub
+  let generatorMock: sinon.SinonStubbedInstance<Generator>
 
   beforeEach(() => {
     projectMock = sinon.createStubInstance(Project)
     promptMock = sinon.createStubInstance(Prompt)
-    // eslint-disable-next-line no-negated-condition
-    if (!checkDirStub) {
-      checkDirStub = sinon.stub(Project.prototype, 'checkDir')
-    } else {
-      checkDirStub.reset()
-    }
+    generatorMock = sinon.createStubInstance(Generator)
   })
 
-  afterEach(() => {
-    sinon.restore()
+  // Test constructor
+  test.it('should initialize Project, Prompt, and Generator instances', () => {
+    const command = new Generate([], {}, projectMock, promptMock, generatorMock)
+    sinon.assert.match(command.project, projectMock)
+    sinon.assert.match(command.prompt, promptMock)
+    sinon.assert.match(command.generator, generatorMock)
   })
 
-  test
-  .stdout()
-  .command(['generate'])
-  .it('Display an error if not in Vue project directory', ctx => {
-    checkDirStub.resolves(false)
+  // Test when not in a Vue project directory
+  test.it('should show an error if not in a Vue project directory', async () => {
     projectMock.checkDir.resolves(false)
-    expect(ctx.stdout).to.contain('You are not in a vue project directory')
+    const command = new Generate([], {}, projectMock, promptMock, generatorMock)
+
+    // Spy on the log method
+    sinon.spy(command, 'log')
+
+    await command.run()
+
+    // Check that the log method was called and includes the right message
+    const logArgs = (command.log as sinon.SinonSpy).getCall(0).args[0]
+    sinon.assert.match(logArgs, /You are not in a vue project directory/)
   })
 
-  test
-  .stdout()
-  .command(['generate', 'page'])
-  .it('generate page if type = "page"', async ctx => {
-    const projectMock = sinon.createStubInstance(Project)
-    const generatorMock = sinon.createStubInstance(Generator)
+  // Test for generating 'page'
+  test.it('should generate a page when type is "page"', async () => {
+    projectMock.checkDir.resolves(true)
+    promptMock.page.resolves({pageName: 'TestPage', layoutName: 'TestLayout', path: '/test'})
+    const command = new Generate(['page'], {}, projectMock, promptMock, generatorMock)
+    await command.run()
+    sinon.assert.calledWith(generatorMock.page, 'TestPage', 'TestLayout', '/test')
+  })
 
-    setTimeout(async () => {
-      projectMock.checkDir.resolves(true)
-      promptMock.page.resolves({pageName: 'TestPage', layoutName: 'TestLayout', path: '/test'})
+  // Test for generating 'component'
+  test.it('should generate a component when type is "component"', async () => {
+    projectMock.checkDir.resolves(true)
+    promptMock.component.resolves({componentName: 'TestComponent', path: '/components'})
+    const command = new Generate(['component'], {}, projectMock, promptMock, generatorMock)
+    await command.run()
+    sinon.assert.calledWith(generatorMock.component, 'TestComponent', '/components')
+  })
 
-      const generate = new Generate([], {}, projectMock, promptMock, generatorMock)
+  // Test for generating 'store'
+  test.it('should generate a store when type is "store"', async () => {
+    projectMock.checkDir.resolves(true)
+    promptMock.store.resolves({storeName: 'TestStore', path: '/store'})
+    const command = new Generate(['store'], {}, projectMock, promptMock, generatorMock)
+    await command.run()
+    sinon.assert.calledWith(generatorMock.store, 'TestStore', '/store')
+  })
 
-      await generate.run()
-      expect(ctx.stdout).to.contain('you won\'t to generate: page')
-    })
+  // Test for missing type argument
+  test.it('should show an error if type is missing', async () => {
+    projectMock.checkDir.resolves(true)
+    const command = new Generate([], {}, projectMock, promptMock, generatorMock)
+
+    // Spy on the log method
+    sinon.spy(command, 'log')
+
+    await command.run()
+
+    // Check that the log method was called and includes the right message
+    const logArgs = (command.log as sinon.SinonSpy).getCall(0).args[0]
+    sinon.assert.match(logArgs.replace(/\\x1B\\[\d;[]*[A-Za-z]/g, ''), /You must specify a type of thing to generate \(component, page, store\)/)
   })
 })

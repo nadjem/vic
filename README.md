@@ -1,12 +1,12 @@
 
-# v-cli 
+# vic 
 ### Vue Interactive Cli version 0.0.1 β
 A vitesse/nuxt/vue 3 cli for generating some stuff.
 
 
 ## Installation
 
-Install v-cli globally with npm
+Install vic globally with npm
 
 ```bash
  $ npm install vic -g
@@ -18,7 +18,7 @@ Install v-cli globally with npm
 generate page
 
 ```bash
-$ v-cli generate page
+$ vic generate page
 ? Choose page name ?
 ? Use an existing layout ?
 ? which layout use :
@@ -28,7 +28,7 @@ $ v-cli generate page
 generate component
 
 ```bash
-$ v-cli generate component
+$ vic generate component
 ? Choose component name ?
 ? Choose path to create this component (default src/component/{componentName}/) ? 
 ```
@@ -36,7 +36,7 @@ $ v-cli generate component
 generate store
 
 ```bash
-$ v-cli generate store (pinia)
+$ vic generate store (pinia)
 ? Choose store name ?
 ? Choose path to create this store (default src/store/{storeName}/) ? 
 ```
