@@ -80,7 +80,7 @@
   },
   "bugs": "https://github.com/nadjem/vic/issues",
   "keywords": [
-    "oclif"
+    "vue", "vitesse", "nuxt", "cli", "generator"
   ],
   "types": "dist/index.d.ts"
 }
