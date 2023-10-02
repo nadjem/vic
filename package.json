@@ -4,7 +4,7 @@
   "description": "A vitesse/nuxt/vue 3 cli for generating some stuff.",
   "author": "nadjem @nadjem",
   "bin": {
-    "vi-cli": "./bin/run"
+    "vic": "./bin/run"
   },
   "homepage": "https://github.com/nadjem/vic",
   "license": "MIT",
