@@ -1,4 +1,4 @@
-
+[![TEST CI](https://github.com/nadjem/vic/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/nadjem/vic/actions/workflows/test.yml)
 # vic 
 ### Vue Interactive Cli version 0.0.1 β
 A vitesse/nuxt/vue 3 cli for generating some stuff.
