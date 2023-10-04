@@ -35,8 +35,6 @@ export default class Generate extends Command {
 
   public async run(): Promise<void> {
     const {args, flags} = await this.parse(Generate)
-    console.log({flags})
-    console.log({test: flags['skip-test']})
     const isVueDir = await this.project.checkDir()
     if (!isVueDir) {
       this.log(`${pc.red('[Error]')} You are not in a vue project directory. Please run this command in your vitesse project directory.`)

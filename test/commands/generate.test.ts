@@ -1,6 +1,7 @@
 
 import {test} from '@oclif/test'
 import sinon from 'sinon'
+import {assert} from 'chai'
 import Project from '../../src/utils/project'
 import Prompt from '../../src/utils/prompt'
 import Generate from '../../src/commands/generate'
@@ -20,9 +21,9 @@ describe('Generate Command', () => {
   // Test constructor
   test.it('should initialize Project, Prompt, and Generator instances', () => {
     const command = new Generate([], {}, projectMock, promptMock, generatorMock)
-    sinon.assert.match(command.project, projectMock)
-    sinon.assert.match(command.prompt, promptMock)
-    sinon.assert.match(command.generator, generatorMock)
+    assert.strictEqual(command.project, projectMock)
+    assert.strictEqual(command.prompt, promptMock)
+    assert.strictEqual(command.generator, generatorMock)
   })
 
   // Test when not in a Vue project directory
@@ -46,7 +47,7 @@ describe('Generate Command', () => {
     promptMock.page.resolves({pageName: 'TestPage', layoutName: 'TestLayout', path: '/test'})
     const command = new Generate(['page'], {}, projectMock, promptMock, generatorMock)
     await command.run()
-    sinon.assert.calledWith(generatorMock.page, 'TestPage', 'TestLayout', '/test')
+    sinon.assert.calledWith(generatorMock.page, 'TestPage', 'TestLayout', '/test', false)
   })
 
   // Test for generating 'component'
@@ -55,7 +56,7 @@ describe('Generate Command', () => {
     promptMock.component.resolves({componentName: 'TestComponent', path: '/components'})
     const command = new Generate(['component'], {}, projectMock, promptMock, generatorMock)
     await command.run()
-    sinon.assert.calledWith(generatorMock.component, 'TestComponent', '/components')
+    sinon.assert.calledWith(generatorMock.component, 'TestComponent', '/components', false)
   })
 
   // Test for generating 'store'
@@ -64,7 +65,7 @@ describe('Generate Command', () => {
     promptMock.store.resolves({storeName: 'TestStore', path: '/store'})
     const command = new Generate(['store'], {}, projectMock, promptMock, generatorMock)
     await command.run()
-    sinon.assert.calledWith(generatorMock.store, 'TestStore', '/store')
+    sinon.assert.calledWith(generatorMock.store, 'TestStore', '/store', false)
   })
 
   // Test for missing type argument
