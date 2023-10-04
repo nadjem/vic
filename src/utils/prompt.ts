@@ -1,8 +1,8 @@
 import {input, confirm, select} from '@inquirer/prompts'
 import Project from './project'
 export default class Prompt {
-  async page(): Promise<{ pageName: string; layoutName: string | undefined; path: string; }> {
-    const pageName = await input({message: 'Choose page name :'})
+  async page(name:string): Promise<{ pageName: string; layoutName: string | undefined; path: string; }> {
+    const pageName = name.length > 0 ? name : await input({message: 'Choose page name :'})
     const withLayout = await confirm({message: 'use an existing layout?'})
 
     let layoutName
@@ -23,8 +23,8 @@ export default class Prompt {
     return answers
   }
 
-  async component(): Promise<{ componentName: string; path: string; }> {
-    const componentName = await input({message: 'Choose component name :'})
+  async component(name:string): Promise<{ componentName: string; path: string; }> {
+    const componentName = name.length > 0 ? name : await input({message: 'Choose component name :'})
     const path = await input({message: 'Choose path :', default: 'src/components'})
     const answers = {
       componentName,
@@ -33,8 +33,8 @@ export default class Prompt {
     return answers
   }
 
-  async store(): Promise<{ storeName: string; path: string; }> {
-    const storeName = await input({message: 'Choose store name :'})
+  async store(name:string): Promise<{ storeName: string; path: string; }> {
+    const storeName = name.length > 0 ? name : await input({message: 'Choose store name :'})
     const path = await input({message: 'Choose path :', default: 'src/stores'})
     const answers = {
       storeName,

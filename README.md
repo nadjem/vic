@@ -1,6 +1,6 @@
 [![TEST CI](https://github.com/nadjem/vic/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/nadjem/vic/actions/workflows/test.yml)
 # vic 
-### Vue Interactive Cli version 0.0.1 β
+### Vue Interactive Cli version 0.0.5β
 A vitesse/nuxt/vue 3 cli for generating some stuff.
 
 
@@ -40,8 +40,14 @@ $ vic generate store (pinia)
 ? Choose store name ?
 ? Choose path to create this store (default src/store/{storeName}/) ? 
 ```
+options : 
+> --name=someName  
 
+set page, component, store name
 
+>--skip-test  
+
+create page, component, store without test file
 ## Authors
 
 [Nadjem](https://www.github.com/nadjem)
