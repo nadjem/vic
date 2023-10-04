@@ -9,7 +9,7 @@ A vitesse/nuxt/vue 3 cli for generating some stuff.
 Install vic globally with npm
 
 ```bash
- $ npm install vic -g
+ $ npm install vic-generator -g
 ```
 
     

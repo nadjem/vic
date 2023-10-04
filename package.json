@@ -1,6 +1,6 @@
 {
   "name": "vic-generator",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "A vitesse/nuxt/vue 3 cli for generating some stuff.",
   "author": "nadjem @nadjem",
   "bin": {
@@ -80,7 +80,11 @@
   },
   "bugs": "https://github.com/nadjem/vic/issues",
   "keywords": [
-    "vue", "vitesse", "nuxt", "cli", "generator"
+    "vue",
+    "vitesse",
+    "nuxt",
+    "cli",
+    "generator"
   ],
   "types": "dist/index.d.ts"
 }
