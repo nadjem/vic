@@ -8,7 +8,7 @@ const toCamelCase = function (str:string) {
 }
 
 export default class Generator {
-  async page(pageName: string, layoutName: string | undefined, path: string): Promise<void> {
+  async page(pageName: string, layoutName: string | undefined, path: string, withoutTest: boolean): Promise<void> {
     const pagePath =  `${path}/${pageName.toLocaleLowerCase()}/index.vue`
     const pageContent = `
 <script setup lang="ts">
@@ -38,11 +38,13 @@ meta:
 
     fs.writeFile(pagePath, pageContent, err => {
       if (err) throw err
-      console.log(pc.green(`[Success] page ${pageName} created`))
+      console.log(pc.green(`[Success] page ${pageName} created at ${pagePath}`))
     })
+    if (withoutTest) return
+    this.test(pageName, 'pages', pagePath)
   }
 
-  async component(componentName: string, path: string): Promise<void> {
+  async component(componentName: string, path: string, withoutTest: boolean): Promise<void> {
     const componentPath =  `${path}/${toCamelCase(componentName)}.vue`
     const componentContent = `
 <script setup lang="ts">
@@ -64,11 +66,13 @@ meta:
 
     fs.writeFile(componentPath, componentContent, err => {
       if (err) throw err
-      console.log(pc.green(`[Success] component ${componentName} created`))
+      console.log(pc.green(`[Success] component ${componentName} created at ${componentPath}`))
     })
+    if (withoutTest) return
+    this.test(componentName, 'components', componentPath)
   }
 
-  async store(storeName: string, path: string): Promise<void> {
+  async store(storeName: string, path: string, withoutTest: boolean): Promise<void> {
     const storePath =  `${path}/${storeName.toLocaleLowerCase()}.ts`
     const storeContent = `
 import { acceptHMRUpdate, defineStore } from 'pinia';
@@ -97,7 +101,34 @@ if (import.meta.hot)
 
     fs.writeFile(storePath, storeContent, err => {
       if (err) throw err
-      console.log(pc.green(`[Success] store ${storeName} created`))
+      console.log(pc.green(`[Success] store ${storeName} created at ${storePath}`))
+    })
+    if (withoutTest) return
+    this.test(storeName, 'stores', storePath)
+  }
+
+  // generate vitest test file for component page and store in src/test
+  async test(testName:string, type:string, fileToTestPAth:string): Promise<void> {
+    const testPath =  `test/${testName}.test.ts`
+    const testContent = `
+import { describe, expect, it, vi } from 'vitest'
+import { mount } from '@vue/test-utils'
+import ${testName} from '/${fileToTestPAth}'
+
+describe('${testName} ${type}', () => {
+  it('should render', () => {
+    const wrapper = mount(${testName})
+    expect(wrapper.html()).toMatchSnapshot()
+  })
+})
+`
+    if (!fs.existsSync('test')) {
+      fs.mkdirSync('test', 0o744)
+    }
+
+    fs.writeFile(testPath, testContent, err => {
+      if (err) throw err
+      console.log(pc.green(`[Success] test ${testName} created at ${testPath}`))
     })
   }
 }
