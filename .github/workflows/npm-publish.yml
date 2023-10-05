@@ -5,7 +5,8 @@ name: NPM PUBLISH
 
 on:
   release:
-    types: [created]
+    types: [published]
+    
 
 jobs:
   build:
