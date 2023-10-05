@@ -23,7 +23,8 @@ describe('Prompt', () => {
     sinon.restore()
   })
 
-  it('should handle page prompts correctly', async () => {
+  // Test existing for page with layout
+  it('should handle page prompts correctly with layout', async () => {
     inputStub.onFirstCall().resolves('TestPage')
     inputStub.onSecondCall().resolves('/path/to/pages')
     confirmStub.resolves(true)
@@ -39,6 +40,22 @@ describe('Prompt', () => {
     })
   })
 
+  // Additional test for page without layout
+  it('should handle page prompts correctly without layout', async () => {
+    inputStub.onFirstCall().resolves('TestPage')
+    inputStub.onSecondCall().resolves('/path/to/pages')
+    confirmStub.resolves(false) // Here, we set withLayout to false
+
+    const result = await prompt.page('')
+
+    expect(result).to.deep.equal({
+      pageName: 'TestPage',
+      layoutName: undefined,  // layout should be undefined when withLayout is false
+      path: '/path/to/pages',
+    })
+  })
+
+  // Existing test for component
   it('should handle component prompts correctly', async () => {
     inputStub.onFirstCall().resolves('TestComponent')
     inputStub.onSecondCall().resolves('/path/to/components')
@@ -51,6 +68,7 @@ describe('Prompt', () => {
     })
   })
 
+  // Existing test for store
   it('should handle store prompts correctly', async () => {
     inputStub.onFirstCall().resolves('TestStore')
     inputStub.onSecondCall().resolves('/path/to/stores')
@@ -60,6 +78,22 @@ describe('Prompt', () => {
     expect(result).to.deep.equal({
       storeName: 'TestStore',
       path: '/path/to/stores',
+    })
+  })
+  // Test for page when name is already provided
+  it('should handle page prompts correctly with name provided', async () => {
+  // No need to stub input for pageName, as it should be provided
+    inputStub.onFirstCall().resolves('/path/to/pages')
+    confirmStub.resolves(true)
+    getLayoutsStub.resolves([{name: 'Layout1', value: 'layout1'}])
+    selectStub.resolves('layout1')
+
+    const result = await prompt.page('PreProvidedName')
+
+    expect(result).to.deep.equal({
+      pageName: 'PreProvidedName', // pageName should be the provided name
+      layoutName: 'layout1',
+      path: '/path/to/pages',
     })
   })
 })
