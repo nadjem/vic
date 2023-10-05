@@ -1,6 +1,6 @@
 {
   "name": "vic-generator",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "A vitesse/nuxt/vue 3 cli for generating some stuff.",
   "author": "nadjem @nadjem",
   "bin": {

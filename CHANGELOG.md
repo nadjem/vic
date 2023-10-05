@@ -1,5 +1,7 @@
 #VIC Changelog
 
+#### 05/10/2024 v0.0.7β
+- improve test coverage
 #### 04/10/2024 v0.0.5β
 
 - initial github action
