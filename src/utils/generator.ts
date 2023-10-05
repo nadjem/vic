@@ -65,7 +65,10 @@ meta:
     }
 
     fs.writeFile(componentPath, componentContent, err => {
-      if (err) throw err
+      if (err) {
+        console.log(pc.red(`[Error] path ${path} not exist`))
+      }
+
       console.log(pc.green(`[Success] component ${componentName} created at ${componentPath}`))
     })
     if (withoutTest) return
@@ -100,7 +103,10 @@ if (import.meta.hot)
     }
 
     fs.writeFile(storePath, storeContent, err => {
-      if (err) throw err
+      if (err) {
+        console.log(pc.red(`[Error] path ${path} not exist`))
+      }
+
       console.log(pc.green(`[Success] store ${storeName} created at ${storePath}`))
     })
     if (withoutTest) return

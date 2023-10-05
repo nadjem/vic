@@ -1,0 +1,9 @@
+{
+  "all": true,
+  "check-coverage": true,
+  "branches": 75,
+  "functions": 75,
+  "lines": 75,
+  "statements": 75,
+  "exclude": ["dist/**", "coverage/**", "node_modules/**", "test/**", "src/index.ts"]
+}
